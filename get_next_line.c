@@ -1,10 +1,5 @@
 #include "get_next_line.h"
 
-int	ft_reminder(char **reminder, char **line)
-{
-
-}
-
 char	*set_reminder(char **reminder, char *buf)
 {
 	char	*tmp;
@@ -57,12 +52,16 @@ int	get_next_line(int fd, char **line)
 	{
 		buf[readed] = 0;
 		if ((ptr_n = set_reminder(&reminder, buf)))
-		{
 			*line = set_line(&reminder, ptr_n);
-		}
-
 	}
 	if (readed > 0)
 		return 1;
+	if (readed == 0 && reminder)
+	{
+		*line = ft_strdup(reminder);
+		free(reminder);
+		reminder = 0x000;
+		return 0;
+	}
 	return 0;
 }
