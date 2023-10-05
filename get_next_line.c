@@ -55,6 +55,19 @@ int	ft_return(int readed, char **line, char **reminder)
 	return readed;
 }
 
+
+void	ft_bzero(void *s, size_t n) {
+	size_t	i;
+	char	*dst;
+
+	dst = (char *)s;
+	i = 0;
+	while (i < n) {
+		dst[i] = '\0';
+		++i;
+	}
+}
+
 int	get_next_line(int fd, char **line)
 {
 	char static	*reminder;
@@ -63,6 +76,8 @@ int	get_next_line(int fd, char **line)
 	char		*ptr_n;
 
 	ptr_n = 0x000;
+	readed = 1;
+	ft_bzero(buf, BUFFER_SIZE + 1);
 	if (!line || fd < 0 || BUFFER_SIZE < 1)
 		return (-1);
 	if (reminder && (ptr_n = ft_strchr(reminder, '\n')))
@@ -72,7 +87,7 @@ int	get_next_line(int fd, char **line)
 	}
 	while (!ptr_n && (readed = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-		buf[readed] = 0;
+		buf[readed] = '\0';
 		if ((ptr_n = set_reminder(&reminder, buf)))
 			*line = set_line(&reminder, ptr_n);
 	}

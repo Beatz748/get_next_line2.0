@@ -7,7 +7,15 @@ NAME	=	get_next_line
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	gcc -g	$(OBJS) -o $(NAME)
+	gcc -g -D BUFFER_SIZE=25	$(OBJS) -o $(NAME)
 
 %.o: %.c
-	gcc -g -c $< -o $@
+	gcc -g -D BUFFER_SIZE=25 -c $< -o $@
+
+re: fclean $(NAME)
+
+clean:
+	rm $(OBJS)
+
+fclean: clean
+	rm $(NAME)
