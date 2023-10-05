@@ -65,8 +65,11 @@ int	get_next_line(int fd, char **line)
 	ptr_n = 0x000;
 	if (!line || fd < 0 || BUFFER_SIZE < 1)
 		return (-1);
-	if (reminder && ft_strchr(reminder, '\n'))
+	if (reminder && (ptr_n = ft_strchr(reminder, '\n')))
+	{
 		*line = set_line(&reminder, ptr_n);
+		return (ft_return(readed, line, &reminder));
+	}
 	while (!ptr_n && (readed = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[readed] = 0;
@@ -74,16 +77,4 @@ int	get_next_line(int fd, char **line)
 			*line = set_line(&reminder, ptr_n);
 	}
 	return (ft_return(readed, line, &reminder));
-//	if (readed > 0)
-//		return 1;
-//	if (readed == 0 && reminder)
-//	{
-//		*line = ft_strdup(reminder);
-//		free(reminder);
-//		reminder = 0x000;
-//		return readed;
-//	}
-//	if (readed == 0 && !reminder)
-//		*line = ft_strdup("");
-//	return readed;
 }
